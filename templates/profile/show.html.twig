@@ -1,0 +1,20 @@
+{# templates/profile/show.html.twig #}
+{% extends 'base.html.twig' %}
+
+
+{% block title %}{{ user.userProfile.name|default(user.email) }}{% endblock %}
+
+{% block body %}
+
+    <div {% include '_breadcrumb.html.twig' with {'current_page': user.userProfile.name|default(user.email)} only %}
+    </div>
+
+    <div class="text-2xl font-bold">{{ user.userProfile.name ?? user.email }}</div>
+    <div class="text-lg text-gray-500 dark:text-gray-400">{{ user.email }}</div>
+
+    <div class="mt-8">
+        <h2 class="text-xl font-semibold mb-4">Paylaşımlarım</h2>
+        
+        {{ include('micro_post/_post_list.html.twig', { posts: user.microPosts }) }}
+    </div>
+{% endblock %}

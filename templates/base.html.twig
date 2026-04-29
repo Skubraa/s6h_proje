@@ -120,7 +120,10 @@
             {# Ana İçerik Alanı (Sayfalar buraya yüklenecek) #}
             {% block body %}{% endblock %}
         </div>
-
+    
+        {# Alt Bilgi (Footer) #}
+        {% include '_partials/_footer.html.twig' %} 
+        
         {# Tema Değiştirme JavaScript Kodların (Aynen korundu) #}
         <script>
             // --------------------------------------------------------
