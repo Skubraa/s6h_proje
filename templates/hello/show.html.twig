@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mesaj Detayı #{{ id }}{% endblock %}
+
+{% block body %}
+    <div style="margin: 20px; font-family: sans-serif;">
+        {# Mesaj kartı parçamızı çağıralım #}
+        {{ include('_partials/_card.html.twig', {
+            'id': id,
+            'icerik': mesaj
+        }) }}
+
+        <div style="margin-top: 30px;">
+            {# Ana sayfaya dönmek için link #}
+            <a href="{{ path('app_hello') }}" style="color: #666; text-decoration: none;">
+                ← Listeye Geri Dön
+            </a>
+        </div>
+
+        {{ include('_partials/_footer.html.twig') }}
+    </div>
+{% endblock %}

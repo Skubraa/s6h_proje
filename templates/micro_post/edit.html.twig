@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Öğrenme Günlüğü Güncelle</h1>
+    {{ include('_breadcrumb.html.twig', {'current_page': 'Öğrenme Düzenle'}) }}
+    {{ include('micro_post/_form.html.twig', {'button_label': 'Güncelle'}) }}
+    
+    <a href="{{ path('app_micro_post') }}">Vazgeç ve Listeye Dön</a>
+{% endblock %}

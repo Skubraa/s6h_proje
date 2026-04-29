@@ -1,6 +1,10 @@
+# config/packages/twig.yaml
 twig:
-    file_name_pattern: '*.twig'
-
+    default_path: '%kernel.project_dir%/templates'
+    
+    # Bu satır tam olarak 'twig:'in bir kademe altında olmalı
+    form_themes:
+        - 'form/tailwind_layout.html.twig'
 when@test:
     twig:
         strict_variables: true

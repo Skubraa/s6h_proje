@@ -1,0 +1,25 @@
+{# templates/micro_post/_form.html.twig #}
+{% form_theme form 'form/tailwind_layout.html.twig' %}
+
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    
+    {# Hata varsa en tepede bir uyarı kutusu gösterelim ama form_errors(form) kullanmayalım #}
+    {% if form.vars.submitted and not form.vars.valid %}
+        <div class="mb-6 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 rounded">
+            <strong>Tüh!</strong> Lütfen formdaki eksikleri kontrol et.
+            {# Debug için hataları listele #}
+            {{ form_errors(form) }}
+        </div>
+    {% endif %}
+
+    <div class="space-y-4">
+        {{ form_row(form.title) }} {# Bu tek satır, senin layout'undaki div, label, widget ve errors'u otomatik basar #}
+        {{ form_row(form.text) }}
+    </div>
+
+    <button type="submit" class="w-full mt-6 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">
+        Kaydet
+    </button>
+    
+
+{{ form_end(form) }}

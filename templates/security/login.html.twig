@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Giriş Yap - Öğrenme Günlüğü{% endblock %}
+
+{% block body %}
+<div class="max-w-md mx-auto mt-16 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 transition-colors duration-200">
+    <form method="post" class="space-y-6">
+        
+        {# Başlık Alanı #}
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white">Hoş Geldiniz</h1>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Lütfen hesabınıza giriş yapın</p>
+        </div>
+
+        {# Hata Mesajı (Senin tailwind_layout dosyanla birebir aynı tasarım) #}
+        {% if error %}
+            <div class="mt-2 flex flex-col gap-1 p-3 bg-red-50 dark:bg-red-900/10 border border-red-200 rounded-lg mb-4 shadow-sm">
+                <span class="text-red-600 dark:text-red-400 text-sm font-bold italic flex items-center gap-2">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </span>
+            </div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="text-sm text-gray-700 dark:text-gray-300 mb-4 text-center p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg">
+                Şu an <strong>{{ app.user.userIdentifier }}</strong> olarak giriş yapmış durumdasınız. 
+                <a href="{{ path('app_logout') }}" class="text-indigo-600 dark:text-indigo-400 hover:underline font-bold">Çıkış Yap</a>
+            </div>
+        {% endif %}
+
+        {# E-posta Alanı (Senin form_widget_simple ve form_label stiline göre) #}
+        <div class="flex flex-col">
+            <label for="inputEmail" class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">E-posta Adresi</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition duration-200" autocomplete="email" required autofocus>
+        </div>
+
+        {# Şifre Alanı #}
+        <div class="flex flex-col">
+            <label for="inputPassword" class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Şifre</label>
+            <input type="password" name="password" id="inputPassword" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition duration-200" autocomplete="current-password" required>
+        </div>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        {# Beni Hatırla Seçeneği #}
+        <div class="flex items-center justify-between">
+            <label class="flex items-center cursor-pointer">
+                <input type="checkbox" name="_remember_me" class="w-4 h-4 text-indigo-600 bg-gray-50 border-gray-300 rounded focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 transition duration-200">
+                <span class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">Beni Hatırla</span>
+            </label>
+        </div>
+        
+        {# Giriş Butonu #}
+        <button class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 shadow-md flex justify-center items-center focus:outline-none focus:ring-4 focus:ring-indigo-500/50" type="submit">
+            Giriş Yap
+        </button>
+        <div class="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700 text-center">
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Henüz bir hesabın yok mu? 
+                    <a href="{{ path('app_register') }}" class="font-bold text-indigo-600 hover:text-indigo-500 underline underline-offset-4 transition duration-200">
+                        Hemen Kaydol
+                    </a>
+                </p>
+        </div>
+    </form>
+</div>
+{% endblock %}

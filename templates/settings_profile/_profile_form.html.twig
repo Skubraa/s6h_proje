@@ -1,0 +1,78 @@
+
+
+{% form_theme form 'form/tailwind_layout.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<div class="max-w-3xl mx-auto py-10 px-4">
+    
+    {# Üst Başlık Kartı #}
+    <div class="bg-white dark:bg-gray-800 shadow-2xl rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-700 mb-8 transition-all duration-300">
+        <div class="p-8 bg-gradient-to-r from-indigo-500/10 to-blue-500/10 dark:from-indigo-900/20 dark:to-blue-900/20 flex items-center gap-6">
+            <div class="w-20 h-20 bg-indigo-600 rounded-2xl flex items-center justify-center text-white text-3xl font-bold shadow-xl">
+                {{ app.user.userIdentifier|first|upper }}
+            </div>
+            <div>
+                <h1 class="text-2xl font-extrabold text-gray-900 dark:text-white">Profil Ayarları</h1>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Bilgilerini güncelleyerek seni daha iyi tanımamızı sağla.</p>
+            </div>
+        </div>
+
+        <div class="p-8">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'space-y-8'}}) }}
+                
+                {# 1. TEMEL BİLGİLER #}
+                <section>
+                    <div class="flex items-center gap-2 mb-4 text-indigo-600 dark:text-indigo-400 font-bold border-b border-gray-100 dark:border-gray-700 pb-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        Temel Bilgiler
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {{ form_row(form.name, {'label': 'Ad Soyad'}) }}
+                        {{ form_row(form.dateOfBirth, {'label': 'Doğum Tarihi'}) }}
+                    </div>
+                    <div class="mt-4">
+                        {{ form_row(form.bio, {'label': 'Biyografi', 'attr': {'placeholder': 'Kendinden bahset...'}}) }}
+                    </div>
+                </section>
+
+                {# 2. İLETİŞİM VE SOSYAL MEDYA #}
+                <section>
+                    <div class="flex items-center gap-2 mb-4 text-indigo-600 dark:text-indigo-400 font-bold border-b border-gray-100 dark:border-gray-700 pb-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.826a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                        Bağlantılar
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {{ form_row(form.websiteUrl, {'label': 'Web Sitesi'}) }}
+                        {{ form_row(form.xUsername, {'label': 'X (Twitter) Kullanıcı Adı'}) }}
+                    </div>
+                </section>
+
+                {# 3. İŞ VE KONUM #}
+                <section>
+                    <div class="flex items-center gap-2 mb-4 text-indigo-600 dark:text-indigo-400 font-bold border-b border-gray-100 dark:border-gray-700 pb-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        Kariyer ve Konum
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {{ form_row(form.company, {'label': 'Şirket / Okul'}) }}
+                        {{ form_row(form.location, {'label': 'Konum'}) }}
+                    </div>
+                </section>
+
+                {# User seçimi genellikle gizli olur veya otomatik atanır, ama formda varsa buraya ekliyoruz #}
+                <div class="hidden">
+                    {{ form_row(form.user) }}
+                </div>
+
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-6 rounded-2xl shadow-lg shadow-indigo-500/30 transition duration-200 transform active:scale-95 flex items-center justify-center gap-2 text-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Profilimi Kaydet
+                </button>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

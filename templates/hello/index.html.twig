@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mesaj Listesi{% endblock %}
+
+{% block body %}
+    <div style="margin: 20px; font-family: sans-serif;">
+        <h1>Hoş Geldin, {{ user_name }}!</h1>
+        <p>Aşağıdaki mesajlardan birine tıklayarak detayları görebilirsin:</p>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            {% for id, metin in mesaj_listesi %}
+                <a href="{{ path('app_hello_show', {'id': id}) }}" 
+                   style="padding: 15px 25px; background: #007bff; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">
+                    {{ metin }}
+                </a>
+            {% endfor %}
+        </div>
+
+        {# Daha önce oluşturduğumuz footer parçasını ekleyelim #}
+        {{ include('_partials/_footer.html.twig') }}
+    </div>
+{% endblock %}

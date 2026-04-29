@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil Ayarları{% endblock %}
+
+{% block body %}
+
+    {# 1. Navigasyon (Breadcrumb) #}
+    <div class="mb-8">
+        {{ include('_breadcrumb.html.twig', {'current_page': 'Profil Ayarları'}) }}
+    </div>
+    
+    {# 2. Ana Kart Yapısı #}
+    {{ form_start(form) }}
+    
+    {{ include ('settings_profile/_profile_form.html.twig') }}
+
+    {{ form_end(form) }}
+{% endblock %}

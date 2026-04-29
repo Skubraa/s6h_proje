@@ -1,0 +1,27 @@
+services:
+  database:
+    image: mariadb:10.8
+    # Mac M1/M2/M3 işlemciler için kritik ayar:
+    platform: linux/arm64/v8
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+  
+  mail:
+    image: schickling/mailcatcher
+    ports:
+      - "1080:1080" # Web arayüzü (Mailleri buradan okuyacaksın)
+      - "1025:1025" # SMTP sunucusu (Symfony buraya mail atacak)
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=database
+      - MYSQL_ROOT_PASSWORD=root
