@@ -6,7 +6,6 @@ use App\Entity\MicroPost;
 use App\Entity\Comment;
 use App\Entity\User;
 use App\Repository\MicroPostRepository;
-use App\Repository\UserRepository;
 use App\Form\MicroPostType;
 use App\Form\CommentType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -229,31 +228,6 @@ public function createTestUser(EntityManagerInterface $em): Response
     $em->flush();
 
     return new Response("Kullanıcı oluşturuldu! ID: " . $user->getId());
-}
-
-#[Route('/micro/post/{id}/like', name: 'app_micro_post_like')]
-#[IsGranted('ROLE_USER')]
-public function like(
-    MicroPost $post, 
-    EntityManagerInterface $em,
-    Request $request // Referer (gelinen sayfa) bilgisi için ekledik
-): Response {
-    /** @var User $currentUser */
-    $currentUser = $this->getUser(); // Veritabanındaki ilk kişiyi değil, giriş yapanı al!
-
-    // 1. Kullanıcı daha önce bu postu beğenmiş mi? (Giriş yapan kişi bazında)
-    if ($post->getLikedBy()->contains($currentUser)) {
-        // Eğer beğenmişse, sadece ONUN beğenisini kaldır
-        $post->removeLikedBy($currentUser);
-    } else {
-        // Beğenmemişse, sadece ONUN beğenisini ekle
-        $post->addLikedBy($currentUser);
-    }
-
-    $em->flush();
-
-    // 2. Kullanıcıyı geldiği sayfaya geri gönder (Daha şık bir yönlendirme)
-    return $this->redirect($request->headers->get('referer'));
 }
 
 }

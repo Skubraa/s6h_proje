@@ -1,0 +1,14 @@
+{# templates/profile/show_likes.html.twig #}
+{% extends 'profile/show.html.twig' %}
+
+{% block profile_content %}
+    <div class="mt-4">
+        {% if user.liked|length > 0 %}
+            {{ include('micro_post/_post_list.html.twig', { posts: user.liked }) }}
+        {% else %}
+            <div class="text-center py-10 border-2 border-dashed border-gray-100 rounded-2xl">
+                <p class="text-gray-400 italic">Henüz bir paylaşımı beğenmediniz.</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

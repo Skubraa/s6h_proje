@@ -1,0 +1,31 @@
+{# templates/follower/_follower_list.html.twig #}
+<div class="mt-8 space-y-4">
+    {% for person in users %}
+        <div class="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm transition-all hover:shadow-md group">
+            <div class="flex items-center gap-4">
+                {# Dinamik Renk Sınıfı #}
+                <div class="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold shrink-0
+                    {{ color == 'blue' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600' : 'bg-green-100 dark:bg-green-900/30 text-green-600' }}">
+                    {{ person.userProfile.name|default(person.email)|first|upper }}
+                </div>
+                
+                <div class="flex flex-col">
+                    <a href="{{ path('app_profile', {id: person.id}) }}" class="font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors leading-tight">
+                        {{ person.userProfile.name|default(person.email|split('@')[0]) }}
+                    </a>
+                    <span class="text-xs text-gray-400 font-medium tracking-wide">
+                        {{ person.email }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="shrink-0">
+                {{ include('follower/_follow_button.html.twig', { userToFollow: person }) }}
+            </div>
+        </div>
+    {% else %}
+        <div class="text-center py-16 border-2 border-dashed border-gray-100 dark:border-gray-800 rounded-3xl">
+            <p class="text-gray-400 italic text-sm">{{ empty_message }}</p>
+        </div>
+    {% endfor %}
+</div>

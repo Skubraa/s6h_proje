@@ -17,4 +17,28 @@ final class ProfileController extends AbstractController
             'user' => $user,
         ]);
     }
+
+    #[Route('/profile/{id}/likes', name: 'app_profile_likes')]
+    public function likes(User $user): Response
+    {
+        return $this->render('profile/likes.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    #[Route('/profile/{id}/follows', name: 'app_profile_follows')]
+    public function follows(User $user): Response
+    {
+        return $this->render('profile/follows.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    #[Route('/profile/{id}/followers', name: 'app_profile_followers')]
+    public function followers(User $user): Response
+    {
+        return $this->render('profile/followers.html.twig', [
+            'user' => $user,
+        ]);
+    }
 }

@@ -1,0 +1,10 @@
+{# templates/profile/show_followers.html.twig #}
+{% extends 'profile/show.html.twig' %}
+
+{% block profile_content %}
+    {{ include('follower/_follower_list.html.twig', { 
+        users: user.followers, 
+        color: 'green', 
+        empty_message: 'Henüz takipçisi yok.' 
+    }) }}
+{% endblock %}

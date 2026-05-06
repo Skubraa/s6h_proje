@@ -1,0 +1,29 @@
+<div class="flex flex-col gap-1 mb-8">
+    {# Üst Satır: İsim ve Buton #}
+        <div class="flex items-center gap-6">
+            <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">
+                {{ user.userProfile.name ?? user.email|split('@')[0] }}
+            </h1>
+            
+            <div class="shrink-0">
+                {{ include('follower/_follow_button.html.twig', { userToFollow: user }) }}
+            </div>
+        </div>
+
+        {# Email Bilgisi #}
+        <div class="text-slate-500 font-medium italic">
+            {{ user.email }}
+        </div>
+
+        {# Sayısal Göstergeler (Takip/Takipçi) #}
+        <div class="flex gap-8 mt-4 border-t pt-4 border-slate-100">
+            <div class="flex flex-col">
+                <span class="text-2xl font-bold text-slate-800">{{ user.follows|length }}</span>
+                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Takip</span>
+            </div>
+            <div class="flex flex-col">
+                <span class="text-2xl font-bold text-slate-800">{{ user.followers|length }}</span>
+                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Takipçi</span>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,53 @@
+{# SEKME NAVİGASYONU ENTEGRASYONU #}
+    <div class="mt-12">
+        {% embed 'shared/_tabs.html.twig' %}
+            {% block tabs %}
+                {# PAYLAŞIMLAR SEKMESİ #}
+                {% embed 'shared/_tab.html.twig' with { route: 'app_profile' } %}
+                    {% block path %}{{ path('app_profile', { id: user.id }) }}{% endblock %}
+                    {% block content %}
+                        Paylaşımlar 
+                        <span class="ml-2 py-0.5 px-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 rounded-full text-xs font-black">
+                            {{ user.microPosts|length }}
+                        </span>
+                    {% endblock %}
+                {% endembed %}
+
+                {# BEĞENİLENLER SEKMESİ (Yeni eklendi) #}
+                {% embed 'shared/_tab.html.twig' with { route: 'app_profile_likes' } %}
+                    {% block path %}{{ path('app_profile_likes', { id: user.id }) }}{% endblock %}
+                    {% block content %}
+                        Beğenilenler 
+                        <span class="ml-2 py-0.5 px-2 bg-pink-50 dark:bg-pink-900/30 text-pink-600 rounded-full text-xs font-black">
+                            {# likedPosts yerine senin metodunla uyumlu olan liked kullanıldı #}
+                            {{ user.liked|length }}
+                        </span>
+                    {% endblock %}
+                {% endembed %}
+
+                {# Takip Edilenler SEKMESİ #}
+                {% embed 'shared/_tab.html.twig' with { route: 'app_profile_follows' } %}
+                    {% block path %}{{ path('app_profile_follows', { id: user.id }) }}{% endblock %}
+                    {% block content %}
+                        Takip Edilenler 
+                        <span class="ml-2 py-0.5 px-2 bg-blue-50 dark:bg-blue-900/30 text-blue-600 rounded-full text-xs font-black">
+                            {# follows yerine senin metodunla uyumlu olan follows kullanıldı #}
+                            {{ user.follows|length }}
+                        </span>
+                    {% endblock %}
+                {% endembed %}
+
+                {# Takipçiler SEKMESİ #}
+                {% embed 'shared/_tab.html.twig' with { route: 'app_profile_followers' } %}
+                    {% block path %}{{ path('app_profile_followers', { id: user.id }) }}{% endblock %}
+                    {% block content %}
+                        Takipçiler 
+                        <span class="ml-2 py-0.5 px-2 bg-green-50 dark:bg-green-900/30 text-green-600 rounded-full text-xs font-black">
+                            {# followers yerine senin metodunla uyumlu olan followers kullanıldı #}
+                            {{ user.followers|length }}
+                        </span>
+                    {% endblock %}
+                {% endembed %}
+            {% endblock %}
+        {% endembed %}
+    </div>
