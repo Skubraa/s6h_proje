@@ -1,0 +1,14 @@
+{# micro_post/top_liked.html.twig veya follows.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}En Çok Beğenilen Paylaşımlar{% endblock %}
+
+{% block body %}
+    
+    <div class="mb-8">
+        {{ include('_breadcrumb.html.twig', {'current_page': 'En Çok Beğenilen Paylaşımlar'}) }}
+    </div>
+
+    {{ include('micro_post/_post_tabs.html.twig') }}
+    {{ include ('micro_post/_post_list.html.twig') }}
+{% endblock %}

@@ -18,7 +18,7 @@
     {# İçerik Alanı #}
     {% block profile_content %}
         <div class="mt-4">
-            {{ include('micro_post/_post_list.html.twig', { posts: user.microPosts }) }}
+            {{ include('micro_post/_post_list.html.twig', { posts: posts }) }}
         </div>
     {% endblock %}
 {% endblock %}

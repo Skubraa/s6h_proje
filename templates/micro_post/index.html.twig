@@ -38,6 +38,8 @@
         {% endif %}
     </div>
 
+    {# SEKME NAVİGASYONU #}
+    {{ include('micro_post/_post_tabs.html.twig') }}
     {# Post Listesi Modülü #}
     {{ include('micro_post/_post_list.html.twig', {posts: posts}) }}
     

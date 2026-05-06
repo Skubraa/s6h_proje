@@ -64,6 +64,28 @@ final class MicroPostController extends AbstractController
             Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK));
     }
 
+    #[Route('/micro/post/top-liked', name: 'app_micro_post_topliked')]
+    public function topLiked(MicroPostRepository $posts): Response
+    {
+        return $this->render(
+            'micro_post/top_liked.html.twig',
+            [
+                'posts' => $posts->findAllWithMinLikes(2),
+            ]
+        );
+    }
+
+    #[Route('/micro/post/follows', name: 'app_micro_post_follows')]
+    public function follows(MicroPostRepository $posts): Response
+    {
+        return $this->render(
+            'micro_post/follows.html.twig',
+            [
+                'posts' => $posts->findAllWithComments(),
+            ]
+        );
+    }
+
     #[Route('/micro/post/{id}/delete', name: 'app_micro_post_delete')]
     #[IsGranted(MicroPost::EDIT, subject: 'post')]
     public function delete(MicroPost $post, EntityManagerInterface $entityManager): Response
@@ -92,6 +114,7 @@ public function edit(MicroPost $post, Request $request, EntityManagerInterface $
         'form' => $form->createView(),
     ]);
 }
+
 
 #[Route('/micro/post/{id}', name: 'app_micro_post_show')]
 public function show(int $id, MicroPostRepository $repository, Request $request, EntityManagerInterface $entityManager): Response

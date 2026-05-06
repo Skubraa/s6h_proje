@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Takip Ettiğiniz Kişilerin Gönderileri{% endblock %}
+
+{# 1. Navigasyon (Breadcrumb) #}
+{% block body %}
+    <div class="mb-8">
+        {{ include('_breadcrumb.html.twig', {'current_page': 'Takip Ettiğiniz Kişiler'}) }}
+    </div>
+
+    {{include('micro_post/_post_tabs.html.twig') }}
+    {{ include ('micro_post/_post_list.html.twig') }}
+    
+{% endblock %}
