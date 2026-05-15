@@ -5,20 +5,30 @@
 {% block title %}{{ user.userProfile.name|default(user.email) }}{% endblock %}
 
 {% block body %}
-
-    <div {% include '_breadcrumb.html.twig' with {'current_page': user.userProfile.name|default(user.email)} only %}
-    </div>
-
-    {# Sadeleştirilmiş Header #}
-    {{ include('profile/_profile_header.html.twig') }}
-
-    {# Sadeleştirilmiş Sekmeler #}
-    {{ include('profile/_profile_tabs.html.twig') }}
-
-    {# İçerik Alanı #}
-    {% block profile_content %}
-        <div class="mt-4">
-            {{ include('micro_post/_post_list.html.twig', { posts: posts }) }}
+    {# Tüm içeriği merkeze alan ana taşıyıcı (Container) #}
+    <div class="max-w-5xl mx-auto px-4">
+        
+        {# 1. Navigasyon (Breadcrumb) #}
+        <div class="mb-8">
+            {{ include('_breadcrumb.html.twig', {
+                'current_page': user.userProfile.name|default(user.email)
+            }) }}
         </div>
-    {% endblock %}
+
+        {# 2. Profil Başlık Alanı (Header) #}
+        <div class="mb-8">
+            {{ include('profile/_profile_header.html.twig') }}
+        </div>
+
+        {# 3. Sekmeler (Gönderiler, Beğeniler, Takipçiler vb.) #}
+        {{ include('profile/_profile_tabs.html.twig') }}
+
+        {# 4. Dinamik İçerik Alanı #}
+        {% block profile_content %}
+            <div class="mt-8">
+                {{ include('micro_post/_post_list.html.twig', { posts: posts }) }}
+            </div>
+        {% endblock %}
+        
+    </div>
 {% endblock %}

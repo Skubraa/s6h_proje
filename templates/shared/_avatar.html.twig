@@ -1,0 +1,11 @@
+{% if profile and profile.image %}
+    <img src="{{ profiles ~ profile.image }}" 
+         alt="Kullanıcı Profil Resmi"
+         class="inline-block object-cover h-{{ size }} w-{{ size }} rounded-full ring-2 ring-white dark:ring-gray-700 shadow-md transition duration-200 hover:brightness-90" />
+{% else %}
+    <div class="inline-flex items-center justify-center h-{{ size }} w-{{ size }} rounded-full bg-gray-100 dark:bg-gray-800 ring-2 ring-white dark:ring-gray-700 shadow-md">
+        <svg class="h-3/5 w-3/5 text-gray-400 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+        </svg>
+    </div>
+{% endif %}

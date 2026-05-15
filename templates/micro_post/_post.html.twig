@@ -14,14 +14,15 @@
                     </h3>
                 </div>
 
-                {# Yazar Bilgisi (pointer-events-auto ekledik ki profil linki çalışsın) #}
+               {# Yazar Bilgisi (pointer-events-auto ekledik ki profil linki çalışsın) #}
                 <div class="mb-2 pointer-events-auto">
                     <a href="{{ path('app_profile', {id: post.author.id}) }}" 
                     class="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline">
-                        <div class="w-5 h-5 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-full flex items-center justify-center text-[10px] font-bold">
-                            {{ post.author.userProfile.name|default(post.author.email)|first|upper }}
-                        </div>
-                        {{ post.author.userProfile.name|default(post.author.email|split('@')[0]) }}
+                        
+                        {# YENİ: Dinamik Avatar Modülümüz. Eski mavi kutu w-5 h-5 boyutundaydı, bu yüzden size değerini ona yakın olan 6 (veya 5) yapıyoruz #}
+                        {{ include('shared/_avatar.html.twig', {'size': 6, profile: post.author.userProfile}) }}
+                        
+                        <span>{{ post.author.userProfile.name|default(post.author.email|split('@')[0]) }}</span>
                     </a>
                 </div>
                 

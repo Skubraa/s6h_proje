@@ -4,11 +4,17 @@
 
 {# 1. Navigasyon (Breadcrumb) #}
 {% block body %}
-    <div class="mb-8">
-        {{ include('_breadcrumb.html.twig', {'current_page': 'Takip Ettiğiniz Kişiler'}) }}
-    </div>
+    <div class="max-w-5xl mx-auto px-4">
+        <div class="mb-8">
+            {{ include('_breadcrumb.html.twig', {'current_page': 'Takip Ettiğiniz Kişilerin Gönderileri'}) }}
+        </div>
 
-    {{include('micro_post/_post_tabs.html.twig') }}
-    {{ include ('micro_post/_post_list.html.twig') }}
-    
+        
+        {{ include('micro_post/_post_tabs.html.twig') }}
+
+        {# 3. Post Listesi #}
+        <div class="mt-8">
+            {{ include('micro_post/_post_list.html.twig', { posts: posts }) }}
+        </div>
+    </div>
 {% endblock %}

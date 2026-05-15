@@ -76,12 +76,17 @@ final class MicroPostController extends AbstractController
     }
 
     #[Route('/micro/post/follows', name: 'app_micro_post_follows')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')] // Giriş zorunluluğu
     public function follows(MicroPostRepository $posts): Response
     {
+        /** @var User $currentUser */
+        $currentUser = $this->getUser(); // Giriş yapan kullanıcıyı al
+
         return $this->render(
             'micro_post/follows.html.twig',
             [
-                'posts' => $posts->findAllWithComments(),
+                // findAllWithComments yerine yazar filtresi kullanmalısın
+                'posts' => $posts->findAllByAuthor($currentUser->getFollows()),
             ]
         );
     }
@@ -132,7 +137,16 @@ public function show(int $id, MicroPostRepository $repository, Request $request,
     }
 
     // #[IsGranted] ile aynı işi yapar
-    $this->denyAccessUnlessGranted(MicroPost::VIEW, $post);
+    if (!$this->isGranted('POST_VIEW', $post)) { 
+    // Not: 'POST_VIEW' yerine kendi yazdığın Voter izninin adını yazmalısın
+    
+    // 1. Kullanıcıya hata bildirimi (Flash Message) oluştur
+    $this->addFlash('error', 'Bu paylaşım gizlidir. Sadece yazarın takipçileri görebilir.');
+
+    // 2. Kullanıcıyı akış sayfasına (ana sayfaya) geri yönlendir
+    return $this->redirectToRoute('app_micro_post');
+    }
+    
     // 1. Yeni bir Comment nesnesi oluştur ve formu buna bağla
     $comment = new Comment();
     $form = $this->createForm(CommentType::class, $comment);

@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil Resmi{% endblock %}
+
+{% block body %}
+    {# İçeriği ortalayan ve diğer sayfalarla hizalayan ana taşıyıcı #}
+    <div class="max-w-5xl mx-auto px-4">
+        
+        {# 1. Navigasyon (Breadcrumb) #}
+        <div class="mb-8">
+            {{ include('_breadcrumb.html.twig', {'current_page': 'Profil Resmi'}) }}
+        </div> 
+
+        {# 2. Ayar Sekmeleri #}
+        <div class="mb-8">
+            {{ include('settings_profile/_settings_profile_tabs.html.twig') }}
+        </div>
+
+        {# 3. Profil Resmi Yükleme Alanı (Kart Yapısı) #}
+        <div class="bg-white dark:bg-gray-800 shadow-2xl rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-700 transition-all duration-300">
+            
+            {# Kart Başlığı #}
+            <div class="p-8 border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50">
+                <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                    <span class="text-blue-600 dark:text-blue-400">Profil Resmi</span>
+                </h1>
+                <p class="mt-2 text-gray-500 dark:text-gray-400 text-sm">
+                    Profilinde görünecek görseli buradan güncelleyebilirsin.
+                </p>
+            </div>
+
+            {# Form Alanı #}
+            <div class="p-8">
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'space-y-6'}}) }}
+
+                    {# --- YENİ AVATAR VE GİZLİ YÜKLEME ALANI --- #}
+                    <div class="flex items-center justify-center gap-12 border-2 border-dashed border-gray-200 dark:border-gray-600 rounded-2xl py-10 px-4 transition-colors hover:border-blue-400">
+                        
+                        {# Mevcut Avatar Görseli #}
+                        <div class="flex-shrink-0">
+                            {{ include('shared/_avatar.html.twig', {'size': 32, profile: app.user.userProfile}) }}
+                        </div>
+
+                        {# Dosya Seçici Buton ve Label #}
+                        <div class="flex flex-col items-center sm:items-start group">
+                            {{ form_label(form.profileImage, 'Yeni Fotoğraf Seç', {'label_attr': {'class': 'inline-flex items-center px-6 py-2.5 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-medium cursor-pointer rounded-xl transition-colors shadow-sm group-hover:scale-105 transform duration-200'}}) }}
+                            
+                            <span class="text-xs text-gray-500 mt-3 font-medium">PNG, JPG (Max. 2MB)</span>
+                            
+                            {# Çirkin Input Alanını Gizliyoruz #}
+                            {{ form_widget(form.profileImage, {'attr': {'class': 'hidden'}}) }}
+                        </div>
+                    </div>
+                    {# --- YENİ ALAN BİTİŞ --- #}
+
+                    {# Hata Mesajları #}
+                    <div class="text-red-500 text-sm text-center">
+                        {{ form_errors(form.profileImage) }}
+                    </div>
+
+                    {# Senin Orijinal Kaydet Butonun #}
+                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-6 rounded-2xl shadow-lg shadow-indigo-500/30 transition duration-200 transform active:scale-95 flex items-center justify-center gap-2 text-lg">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Resmi Kaydet
+                    </button>
+
+                {{ form_end(form) }}
+            </div>
+            
+            {# Senin Orijinal Vazgeç Alt Alanın #}
+            <div class="px-8 py-6 bg-gray-50 dark:bg-gray-800/80 border-t border-gray-100 dark:border-gray-700 flex justify-center">
+                <a href="{{ path('app_profile', {id: app.user.id}) }}" class="text-sm font-medium text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400 transition-colors flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Vazgeç ve Profile Dön
+                </a>
+            </div>
+        </div>
+        
+    </div>
+{% endblock %}

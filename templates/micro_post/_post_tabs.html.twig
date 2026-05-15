@@ -22,15 +22,7 @@
                 {% embed 'shared/_tab.html.twig' with { route: 'app_micro_post_follows' } %}
                     {% block path %}{{ path('app_micro_post_follows') }}{% endblock %}
                     {% block content %}
-                        Takip Ettiğiniz Kişiler 
-                    {% endblock %}
-                {% endembed %}
-
-                {# Takipçiler SEKMESİ #}
-                {% embed 'shared/_tab.html.twig' with { route: '' } %}
-                    {% block path %}{% endblock %}
-                    {% block content %}
-                        Sizi Takip Edenler 
+                        Takip Ettiğiniz Kişilerden 
                     {% endblock %}
                 {% endembed %}
             {% endblock %}

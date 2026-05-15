@@ -23,9 +23,9 @@
                                         Merhaba, <strong>{{ app.user.userProfile.name|default(app.user.email) }}</strong>
                                     </span>
                                     
-                                    <div class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
-                                        {{ app.user.userProfile.name|default(app.user.email)|first|upper }}
-                                    </div>
+                                    {# YENİ: Dinamik Avatar Modülümüzü Çağırıyoruz  #}
+                                    {{ include('shared/_avatar.html.twig', {'size': 9, profile: app.user.userProfile}) }}
+                                    
                                 </button>
 
                                 {# Açılır Menü (Dropdown) #}

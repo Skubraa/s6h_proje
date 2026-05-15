@@ -19,7 +19,7 @@ final class ProfileController extends AbstractController
     {
         return $this->render('profile/show.html.twig', [
             'user' => $user,
-            'posts' => $post->findAllByAuthor($user),
+            'posts' => $post->findAllByAuthor([$user]),
         ]);
     }
 
@@ -36,6 +36,7 @@ final class ProfileController extends AbstractController
     {
         return $this->render('profile/follows.html.twig', [
             'user' => $user,
+            'posts' => [],
         ]);
     }
 
@@ -44,6 +45,7 @@ final class ProfileController extends AbstractController
     {
         return $this->render('profile/followers.html.twig', [
             'user' => $user,
+            'posts' => [],
         ]);
     }
 }

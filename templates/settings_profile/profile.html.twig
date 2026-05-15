@@ -1,18 +1,26 @@
+{# templates/settings_profile/profile.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Profil Ayarları{% endblock %}
 
 {% block body %}
-
-    {# 1. Navigasyon (Breadcrumb) #}
-    <div class="mb-8">
-        {{ include('_breadcrumb.html.twig', {'current_page': 'Profil Ayarları'}) }}
+    <div class="max-w-5xl mx-auto px-4">
+        
+        {# 1. Navigasyon #}
+        <div class="mb-8">
+            {{ include('_breadcrumb.html.twig', {'current_page': 'Profil Ayarları'}) }}
+        </div>
+        
+        {# 2. Ayar Sekmeleri #}
+        <div class="mb-8">
+            {{ include('settings_profile/_settings_profile_tabs.html.twig') }}
+        </div>
+        
+        {# 3. Form Alanı - DIŞTAKİ KUTUYU SİLDİK #}
+        {{ form_start(form) }}
+            {# Formun kendi kart yapısı (_profile_form içindeki) artık tek başına görünecek #}
+            {{ include ('settings_profile/_profile_form.html.twig') }}
+        {{ form_end(form) }}
+        
     </div>
-    
-    {# 2. Ana Kart Yapısı #}
-    {{ form_start(form) }}
-    
-    {{ include ('settings_profile/_profile_form.html.twig') }}
-
-    {{ form_end(form) }}
 {% endblock %}

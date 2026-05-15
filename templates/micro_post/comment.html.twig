@@ -5,6 +5,10 @@
         {# 1. READ (GÖRÜNTÜLEME) KISMI #}
         <div class="flex-1">
             <div class="flex items-center gap-2 mb-2">
+
+                {# YENİ: Yorum Yazarının Avatarı #}
+                {{ include('shared/_avatar.html.twig', {'size': 8, profile: comment.author.userProfile}) }}
+
                 {# DİNAMİK YAZAR BİLGİSİ #}
                 <a href="{{ path('app_profile', {id: comment.author.id}) }}" class="font-bold text-indigo-600 dark:text-indigo-400 text-sm hover:underline">
                     @{{ comment.author.userProfile.name|default(comment.author.email|split('@')[0]) }}

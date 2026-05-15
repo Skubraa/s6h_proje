@@ -32,13 +32,27 @@
                 </div>
             </div>
 
-            {# Tarih Bilgisi #}
-            <p class="text-gray-400 text-sm mb-6 italic flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                Oluşturulma: {{ post.created|date('d.m.Y H:i') }}
-            </p>
+            {# YAZAR VE TARİH BİLGİSİ #}
+            <div class="flex items-center gap-3 mb-6">
+                
+                {# 1. Post Yazarının Avatarı #}
+                {{ include('shared/_avatar.html.twig', {'size': 12, profile: post.author.userProfile}) }}
+                
+                <div class="flex flex-col">
+                    {# Yazarın Adı ve Profile Gitme Linki #}
+                    <a href="{{ path('app_profile', {id: post.author.id}) }}" class="text-sm font-bold text-gray-900 dark:text-white hover:text-blue-600 transition-colors">
+                        {{ post.author.userProfile.name|default(post.author.email|split('@')[0]) }}
+                    </a>
+                    
+                    {# Tarih Bilgisi (Küçültülüp ismin altına alındı) #}
+                    <p class="text-gray-400 text-xs italic flex items-center gap-1 mt-0.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        {{ post.created|date('d.m.Y H:i') }}
+                    </p>
+                </div>
+            </div>
 
             {# Post Metni #}
             <p class="text-gray-700 leading-relaxed text-lg mb-8">
@@ -112,10 +126,8 @@
                         {# 1. YAZAR BİLGİSİ VE TAKİP BUTONU #}
                         <div class="flex items-center justify-between mb-3 pb-3 border-b border-gray-50 dark:border-gray-700/50">
                             <div class="flex items-center gap-3">
-                                {# Avatar: Sadece baş harf içermeli, buton burada olmamalı #}
-                                <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-full flex items-center justify-center text-xs font-bold shrink-0">
-                                    {{ comment.author.userProfile.name|default(comment.author.email)|first|upper }}
-                                </div>
+                                {# YENİ: Yorum yazarının dinamik avatarı #}
+                                {{ include('shared/_avatar.html.twig', {'size': 10, profile: comment.author.userProfile}) }}
                                 
                                 <div class="flex flex-col">
                                     {# Yazar Adı #}

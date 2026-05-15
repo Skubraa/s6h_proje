@@ -63,7 +63,19 @@ final class MicroPostVoter extends Voter
                 return $subject->getAuthor()->getId() === $user->getId();
 
             case MicroPost::VIEW:
-                return true;
+                // 1. ERKEN ÇIKIŞ: Eğer post ekstra gizli değilse, herkes görebilir.
+                if (!$subject->isExtraPrivacy()) {
+                    return true;
+                }
+
+                // 2. GÜVENLİK: Post gizli ve kişi giriş yapmamışsa (anonimse), asla göremez.
+                if (!$user instanceof UserInterface) { // (veya kursun $isAuth değişkeni)
+                    return false;
+                }
+
+                // 3. İŞ MANTIĞI (Senin kararın): Yazarın kendisi Mİ, yoksa TAKİPÇİLERİNDEN biri mi?
+                return $subject->getAuthor()->getId() === $user->getId() 
+                    || $subject->getAuthor()->getFollowers()->contains($user);
         }
 
         return false;

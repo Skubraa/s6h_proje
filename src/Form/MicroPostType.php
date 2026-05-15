@@ -5,10 +5,12 @@ namespace App\Form;
 
 use App\Entity\MicroPost;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
 class MicroPostType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -30,6 +32,10 @@ class MicroPostType extends AbstractType
                 ],
                 'required' => true, // Aynı şekilde burayı da serbest bırakıyoruz
             ])
+            ->add('extraPrivacy', CheckboxType::class, [
+                'label' => 'Bu paylaşımı ekstra gizli yap (Sadece takipçilerim görebilir)',
+                'required' => false, 
+            ]);
         ;
     }
 
@@ -38,7 +44,7 @@ class MicroPostType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => MicroPost::class,
-            
+            'csrf_protection' => true,
             
         ]);
     }
