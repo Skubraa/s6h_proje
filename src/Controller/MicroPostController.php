@@ -6,6 +6,7 @@ use App\Entity\MicroPost;
 use App\Entity\Comment;
 use App\Entity\User;
 use App\Repository\MicroPostRepository;
+use App\Service\InternshipReportGenerator;
 use App\Form\MicroPostType;
 use App\Form\CommentType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,9 +22,18 @@ final class MicroPostController extends AbstractController
     #[Route('/micro/post', name: 'app_micro_post')]
     public function index(MicroPostRepository $posts): Response
     {   
-    
         return $this->render('micro_post/index.html.twig', [
             'posts' => $posts->findAllWithComments(), 
+            'active_category' => 'all'
+        ]);
+    }
+
+    #[Route('/micro/post/category/{category}', name: 'app_micro_post_category')]
+    public function category(string $category, MicroPostRepository $posts): Response
+    {   
+        return $this->render('micro_post/index.html.twig', [
+            'posts' => $posts->findAllByCategory($category), 
+            'active_category' => $category
         ]);
     }
 
@@ -35,6 +45,12 @@ final class MicroPostController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         
         $post = new MicroPost();
+        
+        // Eğer URL'den category parametresi geliyorsa, varsayılan olarak onu seç
+        $categoryParam = $request->query->get('category');
+        if ($categoryParam && in_array($categoryParam, ['learning', 'internship', 'work', 'personal'])) {
+            $post->setCategory($categoryParam);
+        }
         
         $form = $this->createForm(MicroPostType::class, $post);
         $form->handleRequest($request);
@@ -55,7 +71,7 @@ final class MicroPostController extends AbstractController
 
             $this->addFlash('success', 'Harika! Yeni postun yayınlandı.');
             
-            return $this->redirectToRoute('app_micro_post');
+            return $this->redirectToRoute('app_micro_post_show', ['id' => $post->getId()]);
         }
         
         return $this->render('micro_post/add.html.twig', [
@@ -170,10 +186,46 @@ public function show(int $id, MicroPostRepository $repository, Request $request,
     
     return $this->render('micro_post/show.html.twig', [
         'post' => $post,
-        'comment_form' => $form->createView(), ],
+        'comment_form' => $form->createView(),
+        'internship_report' => $request->getSession()->get('internship_report_'.$post->getId()),
+    ],
         new Response(null, $form->isSubmitted() && !$form->isValid() ? 
         Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK));
 
+}
+
+#[Route('/micro/post/{id}/internship-report', name: 'app_micro_post_internship_report', methods: ['POST'])]
+#[IsGranted(MicroPost::EDIT, subject: 'post')]
+public function internshipReport(
+    MicroPost $post,
+    Request $request,
+    InternshipReportGenerator $reportGenerator
+): Response {
+    if (!$this->isCsrfTokenValid('internship_report'.$post->getId(), (string) $request->request->get('_token'))) {
+        throw $this->createAccessDeniedException('Geçersiz güvenlik anahtarı.');
+    }
+
+    if ('internship' !== $post->getCategory()) {
+        $this->addFlash('error', 'AI staj raporu yalnızca Staj Günlüğü paylaşımları için oluşturulabilir.');
+
+        return $this->redirectToRoute('app_micro_post_show', ['id' => $post->getId()]);
+    }
+
+    try {
+        $report = $reportGenerator->generate($post);
+    } catch (\RuntimeException $exception) {
+        $this->addFlash('error', $exception->getMessage());
+
+        return $this->redirectToRoute('app_micro_post_show', ['id' => $post->getId()]);
+    }
+
+    $request->getSession()->set('internship_report_'.$post->getId(), $report);
+    $this->addFlash('success', 'Staj raporu oluşturuldu. Çıktı butonun hemen altında görünüyor.');
+
+    return $this->redirectToRoute('app_micro_post_show', [
+        'id' => $post->getId(),
+        '_fragment' => 'internship-report-output',
+    ]);
 }
 
 #[Route('/micro/post/{id}/comment', name: 'app_comment_add', methods: ['POST'])]

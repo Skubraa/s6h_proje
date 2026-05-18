@@ -51,6 +51,9 @@ class MicroPost
     #[ORM\Column]
     private ?bool $extraPrivacy = null;
 
+    #[ORM\Column(length: 50)]
+    private ?string $category = null;
+
     public function __construct()
     {
         $this->created = new \DateTime('now', new \DateTimeZone('Europe/Istanbul'));
@@ -58,6 +61,7 @@ class MicroPost
         $this->comments = new ArrayCollection();
         $this->likedBy = new ArrayCollection();
         $this->extraPrivacy = false;
+        $this->category = 'learning'; // varsayılan
     }
 
     public function getId(): ?int
@@ -175,6 +179,18 @@ class MicroPost
     public function setExtraPrivacy(bool $extraPrivacy): static
     {
         $this->extraPrivacy = $extraPrivacy;
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(string $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }

@@ -17,10 +17,55 @@
 {% endblock form_errors %}
 {# --- ZARİF HATA MESAJLARI TASARIMI BİTİŞİ --- #} 
 
-{% block title %}Yeni Öğrenme Günlüğü{% endblock %}
+{% block title %}Yeni Günlük Paylaşımı{% endblock %}
 
 {% block body %}
-<div class="max-w-2xl mx-auto py-10 px-4 sm:px-6">
+<div x-data="{ 
+        category: 'learning',
+        titles: {
+            'learning': 'Yeni Öğrenme Günlüğü',
+            'internship': 'Yeni Staj Günlüğü',
+            'work': 'Yeni İş Günlüğü',
+            'personal': 'Yeni Normal Günlük'
+        },
+        descriptions: {
+            'learning': 'Bugün öğrendiğin o harika şeyi ölümsüzleştir.',
+            'internship': 'Stajındaki deneyimlerini, öğrendiklerini ve görevlerini kaydet.',
+            'work': 'İş hayatındaki gününü, başarılarını ve notlarını anlat.',
+            'personal': 'Bugün neler yaşadın? Düşüncelerini ve hislerini paylaş.'
+        },
+        inputPlaceholders: {
+            'learning': 'Örn: Bugün Symfony Öğrendim!',
+            'internship': 'Örn: Stajda 1. Gün - İlk Görev',
+            'work': 'Örn: Proje Tamamlandı',
+            'personal': 'Örn: Harika Bir Hafta Sonu'
+        },
+        textareaPlaceholders: {
+            'learning': 'Bugün neler öğrendin? Detaylandır...',
+            'internship': 'Bugün stajda hangi görevleri yaptın?',
+            'work': 'İşyerindeki başarın veya düşüncelerin neler?',
+            'personal': 'Düşüncelerini ve hislerini yaz...'
+        }
+    }" 
+    x-init="
+        const catSelect = document.getElementById('micro_post_category');
+        const titleInput = document.getElementById('micro_post_title');
+        const textInput = document.getElementById('micro_post_text');
+        
+        const updateForm = (val) => {
+            category = val;
+            if(titleInput) titleInput.placeholder = inputPlaceholders[val];
+            if(textInput) textInput.placeholder = textareaPlaceholders[val];
+        };
+
+        if(catSelect) {
+            updateForm(catSelect.value);
+            catSelect.addEventListener('change', (e) => {
+                updateForm(e.target.value);
+            });
+        }
+    "
+    class="max-w-2xl mx-auto py-10 px-4 sm:px-6">
     
     {# 1. Navigasyon (Breadcrumb) #}
     <div class="mb-8">
@@ -33,10 +78,10 @@
         {# Kart Üst Kısmı #}
         <div class="p-8 border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50">
             <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                <span class="text-blue-600 dark:text-blue-400">Yeni Öğrenme Günlüğü</span>
+                <span class="text-blue-600 dark:text-blue-400" x-text="titles[category]">Yeni Paylaşım</span>
             </h1>
-            <p class="mt-2 text-gray-500 dark:text-gray-400 text-sm">
-                Bugün öğrendiğin o harika şeyi ölümsüzleştir.
+            <p class="mt-2 text-gray-500 dark:text-gray-400 text-sm" x-text="descriptions[category]">
+                Deneyimlerini paylaş.
             </p>
         </div>
 

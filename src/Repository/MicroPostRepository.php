@@ -36,6 +36,16 @@ class MicroPostRepository extends ServiceEntityRepository
             )->getQuery()->getResult();
     }
 
+    public function findAllByCategory(string $category): array
+    {
+            return $this->findAllQuery(
+                withComments: true
+            )
+            ->where('p.category = :category')
+            ->setParameter('category', $category)
+            ->getQuery()->getResult();
+    }
+
         /**
          * @param Collection|array $authors
          * @return MicroPost[]

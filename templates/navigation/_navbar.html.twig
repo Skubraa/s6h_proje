@@ -5,13 +5,48 @@
                     
                     {# Sol Taraf: Logo / Site Adı #}
                     <div class="flex-shrink-0 flex items-center">
-                        <a href="{{ path('app_micro_post') }}" class="text-xl font-extrabold text-blue-600 dark:text-blue-400 hover:text-blue-700 transition">
-                            Öğrenme Günlüğü
+                        <a href="{{ path('app_micro_post') }}" class="text-xl font-extrabold text-blue-600 dark:text-blue-400 hover:text-blue-700 transition flex items-center gap-2">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                            Günlük Akışı
                         </a>
                     </div>
 
-                    {# Sağ Taraf: Kullanıcı Bilgileri ve Tema Butonu #}
+                    {# Sağ Taraf: Menüler ve Kullanıcı Bilgileri #}
                     <div class="flex items-center gap-4">
+
+                        {# Günlüğüm Dropdown (Sağ tarafta, kullanıcının solunda) #}
+                        <div class="relative flex items-center pr-4 border-r border-gray-200 dark:border-gray-700" x-data="{ diaryOpen: false }">
+                            <button @click="diaryOpen = !diaryOpen" type="button" class="flex items-center gap-2 text-gray-700 dark:text-gray-300 font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition focus:outline-none">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                Günlüğüm
+                                <svg class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': diaryOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+
+                            <div x-show="diaryOpen" 
+                                @click.away="diaryOpen = false"
+                                x-transition:enter="transition ease-out duration-100"
+                                x-transition:enter-start="transform opacity-0 scale-95"
+                                x-transition:enter-end="transform opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-75"
+                                x-transition:leave-start="transform opacity-100 scale-100"
+                                x-transition:leave-end="transform opacity-0 scale-95"
+                                class="absolute right-4 top-full mt-3 w-48 rounded-2xl shadow-2xl py-2 bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-50 border border-gray-100 dark:border-gray-700"
+                                style="display: none;">
+                                
+                                <a href="{{ path('app_micro_post_category', {category: 'learning'}) }}" class="block px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors">
+                                    📘 Öğrenme Günlüğüm
+                                </a>
+                                <a href="{{ path('app_micro_post_category', {category: 'internship'}) }}" class="block px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors">
+                                    💼 Staj Günlüğüm
+                                </a>
+                                <a href="{{ path('app_micro_post_category', {category: 'work'}) }}" class="block px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors">
+                                    🏢 İş Günlüğüm
+                                </a>
+                                <a href="{{ path('app_micro_post_category', {category: 'personal'}) }}" class="block px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors">
+                                    📓 Normal Günlük
+                                </a>
+                            </div>
+                        </div>
 
                         {# Kullanıcı Giriş Yapmışsa #}
                         {% if app.user %}
